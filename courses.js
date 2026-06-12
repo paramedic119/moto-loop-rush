@@ -49,7 +49,7 @@ function course2(){ const b=new CB();
   b.whoops(4,68,26);
   b.flat(220).item('N',-95);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'サンセットキャニオン',en:'SUNSET CANYON',limit:44,pal:1,seed:23,par:[24,34],
+  return finishCourse(b,gx,{name:'サンセットキャニオン',en:'SUNSET CANYON',limit:44,pal:1,seed:23,par:[13,22],
     dk:['cactus','rock','flag'], ig:'linear-gradient(135deg,#ff9a4d,#d6452e)'});
 }
 function course3(){ const b=new CB();
@@ -70,7 +70,7 @@ function course3(){ const b=new CB();
   b.whoops(4,66,28);
   b.flat(210).item('N',-95);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ミッドナイトサーキット',en:'MIDNIGHT CIRCUIT',limit:48,pal:2,seed:37,par:[28,40],
+  return finishCourse(b,gx,{name:'ミッドナイトサーキット',en:'MIDNIGHT CIRCUIT',limit:48,pal:2,seed:37,par:[14,24],
     dk:['lamp','rock','flag'], ig:'linear-gradient(135deg,#3a6bff,#1c2a8a)'});
 }
 function course4(){ const b=new CB();
@@ -93,168 +93,161 @@ function course4(){ const b=new CB();
   b.whoops(4,66,30);
   b.flat(200).item('N',-95);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'サンライズ・サミット',en:'SUNRISE SUMMIT',limit:48,pal:3,seed:53,par:[28,40],
+  return finishCourse(b,gx,{name:'サンライズ・サミット',en:'SUNRISE SUMMIT',limit:48,pal:3,seed:53,par:[12,22],
     dk:['rock','bush','flag'], ig:'linear-gradient(135deg,#ff6ba3,#8a5fb0)'});
 }
 
 /* ============ 5〜6. 上級 ============ */
 function course5(){ const b=new CB();
-  /* ニトロ・ゴージ:谷3連+ボーナスのニトロループ。やや厳しめ。 */
+  /* ニトロ・ゴージ:谷3連+ニトロループ。踏切が急で、ニトロを早めに焚かないと谷へ落ちる。 */
   b.flat(360).banner('START',-180).sign('go',-70);
   b.triRow(3,90,36,30);
   b.flat(150).item('N',-70).item('N',-150);
-  b.sign('danger',20).hintN(0);
-  b.rampUp(155,115); b.pit(180,270);
-  b.flat(150).item('N',-65).item('N',-135);
+  b.sign('danger',20).hintN(0); b.rampUp(150,138); b.pit(190,285);
+  b.flat(185).item('N',-65).item('N',-150);
   b.sign('up',30).hintN(0).loop(150);
   b.flat(150).item('N',-80);
-  b.sign('danger',20).hintN(0);
-  b.rampUp(160,120); b.pit(190,275);
-  b.flat(150).item('T',-70).item('N',-135);
+  b.sign('danger',20).hintN(0); b.rampUp(150,140); b.pit(194,290);
+  b.flat(185).item('T',-70).item('N',-150);
   b.whoops(3,68,26);
   b.flat(150).item('N',-70);
-  b.sign('danger',20).hintN(0);
-  b.rampUp(165,125); b.pit(195,280);
-  b.flat(160).item('T',-80);
+  b.sign('danger',20).hintN(0); b.rampUp(152,142); b.pit(198,295);
+  b.flat(170).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ニトロ・ゴージ',en:'NITRO GORGE',limit:30,pal:4,seed:71,par:[18,24],
+  return finishCourse(b,gx,{name:'ニトロ・ゴージ',en:'NITRO GORGE',limit:36,pal:4,seed:71,par:[15,20],
     dk:['rock','lamp','flag'], ig:'linear-gradient(135deg,#2bf0d0,#0a6e78)'});
 }
 function course6(){ const b=new CB();
-  /* ホッピング・ラッシュ:谷4連+ウーブス連打のリズム。上級。 */
+  /* ホッピング・ラッシュ:谷4連+ウーブス連打。リズムで速度が乱れる中で正確な踏切が要る。 */
   b.flat(400).banner('START',-190).sign('go',-70);
   b.whoops(5,72,30);
   b.flat(140).item('N',-70).item('N',-150);
-  b.sign('danger',20).hintN(0);
-  b.rampUp(155,115); b.pit(180,270);
-  b.flat(150).item('N',-70).item('N',-140);
-  b.whoops(5,68,30);
-  b.flat(130).item('T',-80).item('N',-160);
-  b.sign('danger',20).hintN(0);
-  b.rampUp(158,118); b.pit(185,275);
-  b.flat(150).item('N',-70).item('N',-140);
+  b.sign('danger',20).hintN(0); b.rampUp(150,138); b.pit(190,285);
+  b.flat(180).item('N',-70).item('N',-150);
+  b.whoops(4,68,28);
+  b.flat(140).item('T',-80).item('N',-160);
+  b.sign('danger',20).hintN(0); b.rampUp(150,140); b.pit(193,290);
+  b.flat(180).item('N',-70).item('N',-150);
   b.itemArc('N',3,100,-150,220,60).tri(290,130);
   b.flat(140).item('T',-80).item('N',-160);
-  b.sign('danger',20).hintN(0);
-  b.rampUp(160,120); b.pit(190,280);
-  b.flat(150).item('N',-70).item('N',-140);
-  b.whoops(5,66,28);
-  b.sign('danger',20).hintN(0);
-  b.rampUp(162,122); b.pit(192,285);
-  b.flat(160).item('T',-80);
+  b.sign('danger',20).hintN(0); b.rampUp(152,142); b.pit(196,295);
+  b.flat(180).item('N',-70).item('N',-150);
+  b.whoops(4,66,28);
+  b.sign('danger',20).hintN(0); b.rampUp(152,144); b.pit(198,300);
+  b.flat(170).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ホッピング・ラッシュ',en:'HOPPING RUSH',limit:40,pal:0,seed:113,par:[24,32],
+  return finishCourse(b,gx,{name:'ホッピング・ラッシュ',en:'HOPPING RUSH',limit:42,pal:0,seed:113,par:[20,26],
     dk:['tree','bush','flag'], ig:'linear-gradient(135deg,#9cff5a,#2e9e4f)'});
 }
 
 /* ============ 7〜10. 超上級(やり込み)============
-   谷を多く・深く・間隔を詰め、制限を厳しくして「ノーミス走行」を要求。
-   ニトロは「1門1本」で越えられるが、★3を狙うならニトロを連射して加速し続ける
-   攻めの走りが必要(ニトロを集めきり・1本も無駄にしない管理が問われる)。 */
+   各谷は「急な踏切(約45度)+広い谷+広い着地場」。早めにニトロを焚いて十分加速して
+   いないと届かず谷底へ転落する=タイムではなくレイアウト(精度)で難しい。
+   制限時間は余裕を持たせ、難しさは「ノーミスで谷を渡りきる精度」に置く。 */
 function course7(){ const b=new CB();
-  /* ループ・コースター:谷5連+ループ3。ループ突入の誘惑にニトロを浪費すると詰む。 */
-  b.flat(360).banner('START',-190).sign('go',-70);
+  /* ループ・コースター:精密谷5連+ループ3。ループ突入の誘惑にニトロを浪費すると次の谷で詰む。 */
+  b.flat(340).banner('START',-190).sign('go',-70);
   b.triRow(3,90,36,30);
-  b.flat(140).item('N',-70).item('N',-150);
+  b.flat(150).item('N',-70).item('N',-150);
   b.sign('up',30).dropLoop(90,150);
-  b.flat(120).item('N',-60);
-  b.sign('danger',20).hintN(0); b.rampUp(158,120); b.pit(195,300);
-  b.flat(135).item('N',-65).item('N',-125);
+  b.flat(150).item('N',-70).item('N',-130);
+  b.sign('danger',20).hintN(0); b.rampUp(150,150); b.pit(206,310);
+  b.flat(200).item('N',-70).item('N',-150);
   b.sign('up',30).hintN(0).loop(160);
-  b.flat(125).item('N',-70);
-  b.sign('danger',20).hintN(0); b.rampUp(160,122); b.pit(198,305);
-  b.flat(130).item('N',-65).item('T',-120);
+  b.flat(150).item('N',-70).item('N',-130);
+  b.sign('danger',20).hintN(0); b.rampUp(150,152); b.pit(208,315);
+  b.flat(200).item('N',-70).item('T',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(152,153); b.pit(210,320);
+  b.flat(200).item('N',-70).item('N',-150);
   b.sign('up',30).dropLoop(90,170);
-  b.flat(130).item('N',-75);
-  b.sign('danger',20).hintN(0); b.rampUp(160,124); b.pit(200,310);
-  b.flat(130).item('N',-65).item('N',-120);
-  b.sign('danger',20).hintN(0); b.rampUp(162,125); b.pit(202,310);
-  b.flat(130).item('N',-65).item('N',-120);
-  b.sign('danger',20).hintN(0); b.rampUp(165,126); b.pit(205,315);
-  b.flat(160).item('T',-80);
+  b.flat(150).item('N',-70).item('N',-130);
+  b.sign('danger',20).hintN(0); b.rampUp(152,155); b.pit(212,325);
+  b.flat(200).item('N',-70).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(154,156); b.pit(213,330);
+  b.flat(180).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ループ・コースター',en:'LOOP COASTER',limit:36,pal:5,seed:91,par:[21,29],
+  return finishCourse(b,gx,{name:'ループ・コースター',en:'LOOP COASTER',limit:40,pal:5,seed:91,par:[22,29],
     dk:['flag','bush','lamp'], ig:'linear-gradient(135deg,#ff5aa8,#9a66c8)'});
 }
 function course8(){ const b=new CB();
-  /* スカイブリッジ:谷6連+浮き足場2。空中でのニトロ操作が連続する。 */
-  b.flat(360).banner('START',-190).sign('go',-70);
+  /* スカイブリッジ:精密谷6連+浮き足場2。足場で高度を変えつつ正確な谷越えを連続。 */
+  b.flat(340).banner('START',-190).sign('go',-70);
   b.triRow(3,88,38,28);
-  b.flat(140).item('N',-75).item('N',-150);
-  b.sign('danger',20).hintN(0); b.rampUp(158,118); b.pit(190,300);
-  b.flat(125).item('N',-65).item('N',-120);
+  b.flat(150).item('N',-75).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(150,150); b.pit(205,310);
+  b.flat(200).item('N',-70).item('N',-150);
   b.sign('up',30).hintN(10);
-  b.plat(260,420,150).platItems(['N','T','N'],3);
+  b.plat(270,440,150).platItems(['N','T','N'],3);
   b.rampUp(150,110).cliffDown(110);
-  b.flat(115).item('N',-80);
-  b.sign('danger',20).hintN(0); b.rampUp(160,120); b.pit(195,305);
-  b.flat(125).item('N',-65).item('T',-115);
-  b.sign('danger',20).hintN(0); b.rampUp(160,122); b.pit(198,305);
-  b.flat(125).item('N',-65).item('N',-120);
+  b.flat(150).item('N',-80);
+  b.sign('danger',20).hintN(0); b.rampUp(150,152); b.pit(207,315);
+  b.flat(200).item('N',-70).item('T',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(152,153); b.pit(209,320);
+  b.flat(200).item('N',-70).item('N',-150);
   b.sign('up',30).hintN(10);
-  b.plat(250,380,160).platItems(['N','N'],2);
+  b.plat(260,400,160).platItems(['N','N'],2);
   b.rampUp(150,110).cliffDown(110);
-  b.flat(115).item('N',-80);
-  b.sign('danger',20).hintN(0); b.rampUp(160,123); b.pit(200,310);
-  b.flat(125).item('N',-65).item('T',-115);
-  b.sign('danger',20).hintN(0); b.rampUp(162,124); b.pit(202,310);
-  b.flat(125).item('N',-65).item('N',-120);
-  b.sign('danger',20).hintN(0); b.rampUp(165,126); b.pit(205,315);
-  b.flat(160).item('T',-80);
+  b.flat(150).item('N',-80);
+  b.sign('danger',20).hintN(0); b.rampUp(152,155); b.pit(211,325);
+  b.flat(200).item('N',-70).item('T',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(154,156); b.pit(212,330);
+  b.flat(200).item('N',-70).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(154,158); b.pit(213,335);
+  b.flat(180).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'スカイブリッジ',en:'SKY BRIDGE',limit:27,pal:6,seed:101,par:[15,20],
+  return finishCourse(b,gx,{name:'スカイブリッジ',en:'SKY BRIDGE',limit:40,pal:6,seed:101,par:[16,21],
     dk:['flag','rock','flag'], ig:'linear-gradient(135deg,#3ed4ff,#19a0ff)'});
 }
 function course9(){ const b=new CB();
-  /* グランドキャニオン:広く深い大渓谷6連。極限の長距離ジャンプ連続。 */
+  /* グランドキャニオン:精密大渓谷6連。最も広く深い谷の連続。1回の踏切ミスが命取り。 */
   b.flat(380).banner('START',-190).sign('go',-70);
   b.triRow(3,90,40,28);
   b.flat(150).item('N',-75).item('N',-150);
-  b.sign('danger',20).hintN(0); b.rampUp(168,128); b.pit(205,300);
-  b.flat(140).item('N',-70).item('N',-135).item('T',-90);
-  b.sign('danger',20).hintN(0); b.rampUp(170,130); b.pit(208,305);
-  b.flat(140).item('N',-70).item('N',-135);
-  b.sign('danger',20).hintN(0); b.rampUp(170,131); b.pit(210,310);
-  b.flat(140).item('N',-70).item('N',-135).item('T',-90);
-  b.sign('danger',20).hintN(0); b.rampUp(172,132); b.pit(212,315);
-  b.flat(140).item('N',-70).item('N',-135);
-  b.sign('danger',20).hintN(0); b.rampUp(172,133); b.pit(214,320);
-  b.flat(140).item('N',-70).item('N',-135).item('T',-90);
-  b.sign('danger',20).hintN(0); b.rampUp(174,134); b.pit(215,325);
-  b.flat(170).item('T',-80);
+  b.sign('danger',20).hintN(0); b.rampUp(150,150); b.pit(205,310);
+  b.flat(210).item('N',-70).item('N',-150).item('T',-100);
+  b.sign('danger',20).hintN(0); b.rampUp(150,152); b.pit(207,315);
+  b.flat(210).item('N',-70).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(150,153); b.pit(209,320);
+  b.flat(210).item('N',-70).item('N',-150).item('T',-100);
+  b.sign('danger',20).hintN(0); b.rampUp(152,155); b.pit(210,325);
+  b.flat(210).item('N',-70).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(152,156); b.pit(212,330);
+  b.flat(210).item('N',-70).item('N',-150).item('T',-100);
+  b.sign('danger',20).hintN(0); b.rampUp(154,158); b.pit(213,335);
+  b.flat(180).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'グランドキャニオン',en:'GRAND CANYON',limit:27,pal:1,seed:127,par:[15,20],
+  return finishCourse(b,gx,{name:'グランドキャニオン',en:'GRAND CANYON',limit:40,pal:1,seed:127,par:[15,20],
     dk:['cactus','rock','flag'], ig:'linear-gradient(135deg,#ff7a3d,#b8402a)'});
 }
 function course10(){ const b=new CB();
-  /* ニトロ・ヘル:谷7連+ループ+浮き足場+ウーブスの全部入り。究極の最難関。 */
-  b.flat(360).banner('START',-190).sign('go',-70);
+  /* ニトロ・ヘル:精密谷7連+ループ+浮き足場+ウーブスの全部入り。究極の最難関。 */
+  b.flat(340).banner('START',-190).sign('go',-70);
   b.triRow(3,90,38,26);
-  b.flat(140).item('N',-70).item('N',-150);
-  b.sign('danger',20).hintN(0); b.rampUp(158,120); b.pit(190,300);
-  b.flat(125).item('N',-65).item('N',-120);
+  b.flat(150).item('N',-70).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(150,150); b.pit(204,310);
+  b.flat(200).item('N',-70).item('N',-150);
   b.sign('up',30).dropLoop(85,165);
-  b.flat(120).item('N',-70);
-  b.sign('danger',20).hintN(0); b.rampUp(160,122); b.pit(193,305);
-  b.flat(125).item('N',-65).item('T',-115);
+  b.flat(150).item('N',-70).item('N',-130);
+  b.sign('danger',20).hintN(0); b.rampUp(150,152); b.pit(206,315);
+  b.flat(200).item('N',-70).item('T',-150);
   b.sign('up',30).hintN(10);
   b.plat(250,400,160).platItems(['N','N','T'],3);
   b.rampUp(150,110).cliffDown(110);
-  b.flat(115).item('N',-80);
-  b.sign('danger',20).hintN(0); b.rampUp(160,123); b.pit(196,310);
-  b.flat(125).item('N',-65).item('N',-120);
-  b.whoops(4,66,28);
-  b.flat(115).item('N',-70);
-  b.sign('danger',20).hintN(0); b.rampUp(162,124); b.pit(198,310);
-  b.flat(125).item('N',-65).item('T',-115);
-  b.sign('danger',20).hintN(0); b.rampUp(162,125); b.pit(200,315);
-  b.flat(125).item('N',-65).item('N',-120);
-  b.sign('danger',20).hintN(0); b.rampUp(165,127); b.pit(203,320);
-  b.flat(125).item('N',-65).item('N',-120);
-  b.sign('danger',20).hintN(0); b.rampUp(168,128); b.pit(206,325);
-  b.flat(160).item('T',-80);
+  b.flat(150).item('N',-80);
+  b.sign('danger',20).hintN(0); b.rampUp(152,153); b.pit(208,320);
+  b.flat(200).item('N',-70).item('N',-150);
+  b.whoops(3,66,26);
+  b.flat(150).item('N',-70);
+  b.sign('danger',20).hintN(0); b.rampUp(152,155); b.pit(210,320);
+  b.flat(200).item('N',-70).item('T',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(154,156); b.pit(211,325);
+  b.flat(200).item('N',-70).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(154,157); b.pit(212,330);
+  b.flat(200).item('N',-70).item('N',-150);
+  b.sign('danger',20).hintN(0); b.rampUp(156,158); b.pit(213,335);
+  b.flat(180).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ニトロ・ヘル',en:'NITRO HELL',limit:35,pal:7,seed:139,par:[21,28],
+  return finishCourse(b,gx,{name:'ニトロ・ヘル',en:'NITRO HELL',limit:46,pal:7,seed:139,par:[21,28],
     dk:['rock','lamp','rock'], ig:'linear-gradient(135deg,#ff6a2a,#6e1a10)'});
 }
 
