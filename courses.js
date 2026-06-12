@@ -49,7 +49,7 @@ function course2(){ const b=new CB();
   b.whoops(4,68,26);
   b.flat(220).item('N',-95);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'サンセットキャニオン',en:'SUNSET CANYON',limit:44,pal:1,seed:23,par:[24,34],
+  return finishCourse(b,gx,{name:'サンセットキャニオン',en:'SUNSET CANYON',limit:44,pal:1,seed:23,par:[13,22],
     dk:['cactus','rock','flag'], ig:'linear-gradient(135deg,#ff9a4d,#d6452e)'});
 }
 function course3(){ const b=new CB();
@@ -70,7 +70,7 @@ function course3(){ const b=new CB();
   b.whoops(4,66,28);
   b.flat(210).item('N',-95);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ミッドナイトサーキット',en:'MIDNIGHT CIRCUIT',limit:48,pal:2,seed:37,par:[28,40],
+  return finishCourse(b,gx,{name:'ミッドナイトサーキット',en:'MIDNIGHT CIRCUIT',limit:48,pal:2,seed:37,par:[14,24],
     dk:['lamp','rock','flag'], ig:'linear-gradient(135deg,#3a6bff,#1c2a8a)'});
 }
 function course4(){ const b=new CB();
@@ -93,7 +93,7 @@ function course4(){ const b=new CB();
   b.whoops(4,66,30);
   b.flat(200).item('N',-95);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'サンライズ・サミット',en:'SUNRISE SUMMIT',limit:48,pal:3,seed:53,par:[28,40],
+  return finishCourse(b,gx,{name:'サンライズ・サミット',en:'SUNRISE SUMMIT',limit:48,pal:3,seed:53,par:[12,22],
     dk:['rock','bush','flag'], ig:'linear-gradient(135deg,#ff6ba3,#8a5fb0)'});
 }
 
@@ -117,7 +117,7 @@ function course5(){ const b=new CB();
   b.rampUp(165,125); b.pit(195,280);
   b.flat(160).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ニトロ・ゴージ',en:'NITRO GORGE',limit:30,pal:4,seed:71,par:[18,24],
+  return finishCourse(b,gx,{name:'ニトロ・ゴージ',en:'NITRO GORGE',limit:18,pal:4,seed:71,par:[11,14],
     dk:['rock','lamp','flag'], ig:'linear-gradient(135deg,#2bf0d0,#0a6e78)'});
 }
 function course6(){ const b=new CB();
@@ -143,7 +143,7 @@ function course6(){ const b=new CB();
   b.rampUp(162,122); b.pit(192,285);
   b.flat(160).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ホッピング・ラッシュ',en:'HOPPING RUSH',limit:40,pal:0,seed:113,par:[24,32],
+  return finishCourse(b,gx,{name:'ホッピング・ラッシュ',en:'HOPPING RUSH',limit:25,pal:0,seed:113,par:[12,18],
     dk:['tree','bush','flag'], ig:'linear-gradient(135deg,#9cff5a,#2e9e4f)'});
 }
 
@@ -173,7 +173,7 @@ function course7(){ const b=new CB();
   b.sign('danger',20).hintN(0); b.rampUp(165,126); b.pit(205,315);
   b.flat(160).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ループ・コースター',en:'LOOP COASTER',limit:36,pal:5,seed:91,par:[21,29],
+  return finishCourse(b,gx,{name:'ループ・コースター',en:'LOOP COASTER',limit:24,pal:5,seed:91,par:[17,21],
     dk:['flag','bush','lamp'], ig:'linear-gradient(135deg,#ff5aa8,#9a66c8)'});
 }
 function course8(){ const b=new CB();
@@ -202,7 +202,7 @@ function course8(){ const b=new CB();
   b.sign('danger',20).hintN(0); b.rampUp(165,126); b.pit(205,315);
   b.flat(160).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'スカイブリッジ',en:'SKY BRIDGE',limit:27,pal:6,seed:101,par:[15,20],
+  return finishCourse(b,gx,{name:'スカイブリッジ',en:'SKY BRIDGE',limit:17,pal:6,seed:101,par:[12,15],
     dk:['flag','rock','flag'], ig:'linear-gradient(135deg,#3ed4ff,#19a0ff)'});
 }
 function course9(){ const b=new CB();
@@ -223,7 +223,7 @@ function course9(){ const b=new CB();
   b.sign('danger',20).hintN(0); b.rampUp(174,134); b.pit(215,325);
   b.flat(170).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'グランドキャニオン',en:'GRAND CANYON',limit:27,pal:1,seed:127,par:[15,20],
+  return finishCourse(b,gx,{name:'グランドキャニオン',en:'GRAND CANYON',limit:18,pal:1,seed:127,par:[15,17],
     dk:['cactus','rock','flag'], ig:'linear-gradient(135deg,#ff7a3d,#b8402a)'});
 }
 function course10(){ const b=new CB();
@@ -254,7 +254,7 @@ function course10(){ const b=new CB();
   b.sign('danger',20).hintN(0); b.rampUp(168,128); b.pit(206,325);
   b.flat(160).item('T',-80);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ニトロ・ヘル',en:'NITRO HELL',limit:35,pal:7,seed:139,par:[21,28],
+  return finishCourse(b,gx,{name:'ニトロ・ヘル',en:'NITRO HELL',limit:23,pal:7,seed:139,par:[17,21],
     dk:['rock','lamp','rock'], ig:'linear-gradient(135deg,#ff6a2a,#6e1a10)'});
 }
 
