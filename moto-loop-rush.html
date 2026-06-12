@@ -297,6 +297,17 @@ CB.prototype={
     if(gap&&i<n-1) this.flat(gap); } return this; },
   rampUp(len,h){ this.x+=len; this.y-=h; this.p(); return this; },
   cliffDown(h){ this.x+=12; this.y+=h; this.p(); return this; },
+  /* 階段状の急降下ウォール(原作の壁面落下イメージ) */
+  stairsDown(n,run,step){ run=run||64; step=step||40;
+    for(let i=0;i<n;i++){ this.cliffDown(step); this.flat(run); } return this; },
+  /* 階段状の登り */
+  stairsUp(n,run,rise){ run=run||90; rise=rise||44;
+    for(let i=0;i<n;i++){ this.rampUp(run,rise); this.flat(22); } return this; },
+  /* テーブルトップ(平頂ジャンプ台) */
+  tabletop(up,top,h){ up=up||150; top=top||150; h=h||110;
+    this.rampUp(up,h); this.flat(top); this.cliffDown(h); return this; },
+  /* 助走用の下り→ループ突入(大ループを安定して回すための加速区間) */
+  dropLoop(drop,r){ this.cliffDown(drop||60); this.flat(60); return this.loop(r); },
   pit(len,depth){ depth=depth||170; this.x+=10; this.y+=depth; this.p(1);
     this.x+=len; this.p(1); this.x+=10; this.y-=depth; this.p(); return this; },
   loop(r){ this.flat(90); const cx=this.x+r+60, by=this.y;
@@ -372,110 +383,167 @@ const PALS=[
  { sky:['#0C1A4A','#26346D','#454B85'], mtFar:'#243061', mtNear:'#151F44',
    hill:'#284069', hillD:'#1C2F50', dirt:'#5E6E92', dirtD:'#3E4A68', dirtLine:'#2E3850',
    curb:'#3ED4FF', edge:'#CFEFFF', sun:'#F2F4FF', night:true, accent:'#46E6FF', loopCol:'#3FB8D8' },
+ { sky:['#3A2A6E','#8A5FB0','#F4A9C2'], mtFar:'#5A4A86', mtNear:'#3E356A',
+   hill:'#6E5A9E', hillD:'#4E3F7A', dirt:'#B0688E', dirtD:'#7E4664', dirtLine:'#5E2F4A',
+   curb:'#FFD23E', edge:'#FFF0F6', sun:'#FFE0B0', night:false, accent:'#FF6BA3', loopCol:'#4A3A6E' },
 ];
 
 /* ================= コース定義 ================= */
 function course1(){ const b=new CB();
   b.flat(430).banner('START',-210).sign('go',-80);
   b.triRow(3,90,36,34);
-  b.flat(170).item('T',-85);
+  b.flat(150).item('T',-75);
+  /* うねり(ウーブス)で導入 */
+  b.whoops(4,70,30);
+  b.flat(120);
   b.itemArc('N',3,100,-150,220,60).tri(280,120);
   b.flat(140);
   b.rampUp(160,105).item('T',60,-160).cliffDown(105);
-  b.flat(210);
-  b.triRow(4,86,40,30);
-  b.flat(180).item('W',-90).sign('go',-30);
-  b.rampUp(180,125);
-  b.flat(330).item('N',-240).item('T',-120);
-  b.cliffDown(125);
-  b.flat(190);
-  b.loop(150);
+  b.flat(190).item('W',-90).sign('go',-30);
+  /* テーブルトップ・ジャンプ */
+  b.tabletop(170,150,118).item('T',-150,-150);
+  b.flat(240).item('N',-180).item('T',-90);
+  /* 下りから勢いをつけてループ */
+  b.dropLoop(110,150);
   b.flat(240).item('T',-120);
   b.itemArc('N',3,110,-180,240,60).tri(320,150);
   b.triRow(3,90,38,30);
-  b.flat(210).item('N',-105);
-  b.rampUp(150,95).cliffDown(95);
-  b.flat(200);
-  b.tri(280,115);
-  b.flat(300).item('T',-150);
+  b.flat(190).item('N',-95);
+  /* 階段状の急降下ウォール(ゆるめ・3段) */
+  b.sign('danger',30);
+  b.stairsDown(3,80,58);
+  b.flat(220).item('T',-150);
   b.triRow(5,86,36,28);
   b.flat(210);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'そよかぜヒルズ',en:'SUNNY HILLS',limit:55,pal:0,seed:11,par:[40,48],
+  return finishCourse(b,gx,{name:'そよかぜヒルズ',en:'SUNNY HILLS',limit:60,pal:0,seed:11,par:[35,45],
     dk:['tree','bush','flag'], ig:'linear-gradient(135deg,#6cd06e,#2e9e4f)'});
 }
 function course2(){ const b=new CB();
   b.flat(400).banner('START',-200).sign('go',-60);
   b.triRow(3,88,38,30);
   b.flat(160).item('T',-80);
+  /* メサ(高台)へ駆け上がる */
   b.rampUp(170,115);
-  b.flat(300).item('N',-220).item('N',-110);
-  b.cliffDown(235);                       /* 高台から谷底へ */
-  b.flat(250).item('W',-125);
+  b.flat(300).item('N',-220).item('N',-110).sign('danger',-30);
+  /* 谷底へ一気に落ちる大ドロップ */
+  b.cliffDown(235);
+  b.flat(230).item('W',-115);
+  /* キャニオンの階段ウォール(下り・5段/このコースの目玉) */
+  b.rampUp(160,150);
+  b.stairsDown(5,72,52).item('T',-300,-60).item('N',-150,-60);
+  b.flat(200);
   b.rampUp(190,120);                      /* 谷から駆け上がる */
-  b.flat(170);
-  b.loop(145);
+  b.flat(150);
+  b.dropLoop(80,150);
   b.flat(230).item('T',-115);
   b.itemArc('N',3,100,-160,230,60).tri(300,130);
   b.flat(150);
-  b.rampUp(170,120);
-  b.flat(260).item('T',-130);
-  b.cliffDown(60).flat(180).cliffDown(60); /* 段々の下り */
-  b.flat(180).sign('go',-30);
+  b.tabletop(180,170,128).item('T',-170,-160);
+  b.flat(200).item('T',-100).sign('go',-30);
   /* 浮きプラットフォームルート(ニトロ推奨) */
   b.sign('up',40).hintN(10);
   b.plat(320,560,150).platItems(['N','T','N'],3);
   b.rampUp(150,110).cliffDown(110);
-  b.flat(840);
-  b.triRow(4,86,38,28);
-  b.flat(210).item('T',-105);
-  b.loop(165);
+  b.flat(520);
+  /* 登り階段で再びメサへ */
+  b.stairsUp(4,96,46);
+  b.flat(220).item('T',-105);
+  b.dropLoop(90,165);
   b.flat(240).item('W',-120);
   b.itemArc('N',3,110,-170,240,60).tri(320,145);
   b.triRow(4,88,38,30);
   b.flat(290).item('T',-145);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'サンセットキャニオン',en:'SUNSET CANYON',limit:65,pal:1,seed:23,par:[40,50],
+  return finishCourse(b,gx,{name:'サンセットキャニオン',en:'SUNSET CANYON',limit:72,pal:1,seed:23,par:[43,54],
     dk:['cactus','rock','flag'], ig:'linear-gradient(135deg,#ff9a4d,#d6452e)'});
 }
 function course3(){ const b=new CB();
   b.flat(430).banner('START',-210).sign('go',-70);
   b.triRow(4,88,38,28);
   b.itemArc('N',3,100,-160,230,60).tri(300,135);
-  b.flat(180).item('T',-90);
-  b.loop(150);
-  b.flat(230).item('T',-115);
-  b.rampUp(180,130);
-  b.flat(280).item('N',-200).item('T',-100);
+  b.flat(160).item('T',-90);
+  b.dropLoop(70,150);
+  b.flat(220).item('T',-110);
+  /* 大テーブルトップ(Tアイテムを空中で回収) */
+  b.tabletop(190,180,135).itemArc('T',3,-300,-150,260,70);
+  b.flat(240).item('N',-200).item('T',-100);
   b.cliffDown(130);
-  b.flat(200).item('W',-100);
-  b.triRow(5,86,38,26);
-  b.flat(210).item('N',-105).sign('go',-40);
+  b.flat(180).item('W',-90).sign('go',-40);
   /* ダブルループ */
-  b.loop(140);
+  b.dropLoop(70,140);
   b.flat(150).item('N',-75);
   b.loop(170);
-  b.flat(250).item('T',-125).item('W',-60,-70);
+  b.flat(230).item('T',-115).item('W',-50,-70);
   b.itemArc('N',3,110,-180,250,65).tri(330,155);
-  b.flat(160);
+  b.flat(150);
   /* 浮きプラットフォーム */
   b.sign('up',40).hintN(10);
   b.plat(320,520,150).platItems(['T','N'],2);
   b.rampUp(150,110).cliffDown(110);
-  b.flat(800);
-  b.triRow(6,86,36,26);
-  b.flat(200).item('T',-100);
+  b.flat(420);
+  /* 階段状の急降下ウォール(長め・5段) */
+  b.sign('danger',30);
+  b.rampUp(150,130);
+  b.stairsDown(5,76,56).item('N',-260,-60);
+  b.flat(180);
+  b.whoops(5,68,30);
+  b.flat(180).item('T',-90);
   b.rampUp(170,120).item('N',60,-170).cliffDown(120);
-  b.flat(230);
-  b.tri(300,140);
-  b.flat(300).item('T',-150);
+  b.flat(190);
+  /* フィナーレの大ループ */
+  b.dropLoop(80,175);
+  b.flat(250).item('T',-125);
   b.triRow(3,90,38,30);
-  b.flat(230);
+  b.flat(220);
   const gx=b.goal();
-  return finishCourse(b,gx,{name:'ミッドナイトサーキット',en:'MIDNIGHT CIRCUIT',limit:75,pal:2,seed:37,par:[50,62],
+  return finishCourse(b,gx,{name:'ミッドナイトサーキット',en:'MIDNIGHT CIRCUIT',limit:84,pal:2,seed:37,par:[45,58],
     dk:['lamp','rock','flag'], ig:'linear-gradient(135deg,#3a6bff,#1c2a8a)'});
 }
-const COURSE_DEFS=[course1,course2,course3];
+function course4(){ const b=new CB();
+  b.flat(420).banner('START',-200).sign('go',-70);
+  b.triRow(4,90,40,26);
+  b.flat(150).item('T',-75);
+  b.itemArc('N',3,100,-150,220,60).tri(300,140);
+  b.flat(120);
+  /* 連続ループ・ゲートウェイ(3連) */
+  b.dropLoop(80,150);
+  b.flat(140).item('N',-70);
+  b.loop(165);
+  b.flat(140).item('N',-70).item('T',-140);
+  b.loop(150);
+  b.flat(220).item('W',-110).sign('go',-30);
+  /* 大ジャンプ→空中Tアーチ */
+  b.rampUp(150,130);
+  b.tabletop(180,200,140).itemArc('T',4,-320,-170,300,80);
+  b.flat(200).item('N',-180).item('T',-90);
+  b.cliffDown(140);
+  /* サミットからの長い階段ウォール(7段・最大の見せ場) */
+  b.sign('danger',30).hintN(10);
+  b.rampUp(160,150);
+  b.stairsDown(7,70,54).itemArc('N',3,-460,-60,360,60);
+  b.flat(200).item('W',-100);
+  b.rampUp(190,125);
+  b.flat(150);
+  /* 浮きプラットフォーム(ニトロ必須ルート) */
+  b.sign('up',40).hintN(10);
+  b.plat(300,600,160).platItems(['N','T','N','T'],4);
+  b.rampUp(150,115).cliffDown(115);
+  b.flat(560);
+  b.whoops(6,66,32);
+  b.flat(160).item('T',-90);
+  b.itemArc('N',3,110,-180,250,65).tri(330,160);
+  b.flat(150);
+  /* フィナーレの特大ループ */
+  b.dropLoop(90,180);
+  b.flat(260).item('T',-130);
+  b.triRow(4,88,38,28);
+  b.flat(230);
+  const gx=b.goal();
+  return finishCourse(b,gx,{name:'サンライズ・サミット',en:'SUNRISE SUMMIT',limit:98,pal:3,seed:53,par:[47,60],
+    dk:['rock','bush','flag'], ig:'linear-gradient(135deg,#ff6ba3,#8a5fb0)'});
+}
+const COURSE_DEFS=[course1,course2,course3,course4];
 /* ================= ゲーム状態・物理 ================= */
 const G=1000, VMAX=270, VNITRO=520, A0=400, BRK=1500;
 const ROT=26, AVMAX=7.2, KICK=1.35;
