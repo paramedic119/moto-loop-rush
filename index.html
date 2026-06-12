@@ -75,7 +75,8 @@ html,body{ margin:0; padding:0; width:100%; height:100%; overflow:hidden; backgr
 .panel{ background:rgba(10,16,36,.72); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
   border-radius:22px; padding:22px 22px; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.14), 0 14px 40px rgba(0,0,0,.5);
   max-width:400px; width:100%; }
-#scrSelect{ background:rgba(6,10,24,.55); }
+#scrSelect{ background:rgba(6,10,24,.55); justify-content:flex-start;
+  overflow-y:auto; -webkit-overflow-scrolling:touch; touch-action:pan-y; overscroll-behavior:contain; }
 #scrSelect h2, #scrPause h2{ margin:0 0 4px; font-size:20px; letter-spacing:.2em; }
 .card{ pointer-events:auto; display:flex; align-items:center; gap:14px; width:100%; max-width:380px;
   border:none; font-family:inherit; color:#fff; text-align:left; padding:14px 16px; border-radius:18px;
@@ -273,7 +274,11 @@ function initInput(){
     if(e.key==='ArrowLeft') input.left=false;
     if(e.key==='ArrowRight') input.right=false;
   });
-  document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+  document.addEventListener('touchmove',e=>{
+    /* コースセレクト一覧内だけはタッチスクロールを許可、それ以外はブロック */
+    if(e.target&&e.target.closest&&e.target.closest('#scrSelect')) return;
+    e.preventDefault();
+  },{passive:false});
   document.addEventListener('gesturestart',e=>e.preventDefault());
   document.addEventListener('contextmenu',e=>e.preventDefault());
 }
