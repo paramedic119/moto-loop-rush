@@ -386,6 +386,9 @@ const PALS=[
  { sky:['#3A2A6E','#8A5FB0','#F4A9C2'], mtFar:'#5A4A86', mtNear:'#3E356A',
    hill:'#6E5A9E', hillD:'#4E3F7A', dirt:'#B0688E', dirtD:'#7E4664', dirtLine:'#5E2F4A',
    curb:'#FFD23E', edge:'#FFF0F6', sun:'#FFE0B0', night:false, accent:'#FF6BA3', loopCol:'#4A3A6E' },
+ { sky:['#04122A','#0C2E50','#1E5E72'], mtFar:'#123A55', mtNear:'#0A2740',
+   hill:'#0E4A52', hillD:'#093840', dirt:'#2A6E78', dirtD:'#16454E', dirtLine:'#0C2E36',
+   curb:'#3EE9C8', edge:'#D6FFF6', sun:'#9CFFE8', night:true, accent:'#2BF0D0', loopCol:'#2BC8B0' },
 ];
 
 /* ================= コース定義 ================= */
@@ -543,7 +546,46 @@ function course4(){ const b=new CB();
   return finishCourse(b,gx,{name:'サンライズ・サミット',en:'SUNRISE SUMMIT',limit:98,pal:3,seed:53,par:[47,60],
     dk:['rock','bush','flag'], ig:'linear-gradient(135deg,#ff6ba3,#8a5fb0)'});
 }
-const COURSE_DEFS=[course1,course2,course3,course4];
+function course5(){ const b=new CB();
+  /* ニトロ・ゴージ:ニトロを使わないと越えられない大渓谷の連続。
+     各ピットは助走ランプで失速 → 通常速度では飛び越えられず谷底へ落下。
+     ニトロのエア加速(空中で前進力ブースト)で初めてクリアできる設計。 */
+  b.flat(360).banner('START',-180).sign('go',-70);
+  b.triRow(3,90,36,30);
+  b.flat(140).item('N',-70);
+  /* ウォームアップ・テーブル(ピット無し:ジャンプの感覚を掴む) */
+  b.rampUp(140,80).cliffDown(80);
+  b.flat(150).item('N',-75).sign('go',-30);
+  /* ゲート1:最初の渓谷。ここで「ニトロ必須」を体で覚える */
+  b.sign('danger',20).hintN(0);
+  b.rampUp(150,110);
+  b.pit(160,280);
+  b.flat(130).item('N',-65).item('N',-120);
+  /* ボーナスのニトロ・ループ(任意:回ると谷でニトロ3本補給) */
+  b.sign('up',30).hintN(0).loop(150);
+  b.flat(170).item('N',-85);
+  /* ゲート2:より広く・深い渓谷 */
+  b.sign('danger',20).hintN(0);
+  b.rampUp(160,120);
+  b.pit(185,300);
+  b.flat(140).item('T',-70).item('N',-120);
+  b.whoops(3,70,26);
+  b.flat(140).item('N',-70);
+  /* ゲート3 */
+  b.sign('danger',20).hintN(0);
+  b.rampUp(160,120);
+  b.pit(200,300);
+  b.flat(150).item('N',-70).item('N',-140);
+  /* ゲート4:フィナーレの大渓谷 */
+  b.sign('danger',20).hintN(0);
+  b.rampUp(170,130);
+  b.pit(210,320);
+  b.flat(160).item('T',-80);
+  const gx=b.goal();
+  return finishCourse(b,gx,{name:'ニトロ・ゴージ',en:'NITRO GORGE',limit:60,pal:4,seed:71,par:[30,42],
+    dk:['rock','lamp','flag'], ig:'linear-gradient(135deg,#2bf0d0,#0a6e78)'});
+}
+const COURSE_DEFS=[course1,course2,course3,course4,course5];
 /* ================= ゲーム状態・物理 ================= */
 const G=1000, VMAX=270, VNITRO=520, A0=400, BRK=1500;
 const ROT=26, AVMAX=7.2, KICK=1.35;
