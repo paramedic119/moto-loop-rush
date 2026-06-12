@@ -650,7 +650,7 @@ function stepBike(DT){
   const acc = allowIn && input.accel;
   const brk = allowIn && input.brake;
   if(input.nitroQ){ input.nitroQ=false;
-    if(allowIn && game.nitros>0 && b.nitroT<=0){
+    if(allowIn && game.nitros>0){
       game.nitros--; b.nitroT=1.05; sfx.nitro(); pushMsg('ニトロ点火!','#7DE0FF');
       game.nitroFlash=1; game.cam.shake=Math.max(game.cam.shake,9);
       const ex={x:b.x-Math.cos(b.ang)*34, y:b.y-14-Math.sin(b.ang)*34};
