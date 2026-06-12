@@ -222,7 +222,10 @@ const sfx={
   pick(){ blip(720,.09,'square',.22,420); blip(1080,.12,'square',.18,500,.05); },
   time(){ blip(620,.1,'triangle',.26,200); blip(930,.14,'triangle',.22,300,.07); },
   tire(){ blip(330,.12,'sine',.3,140); blip(495,.16,'sine',.24,180,.08); },
-  nitro(){ whoosh(.5,.4,2600); blip(160,.5,'sawtooth',.2,640); },
+  nitro(){ whoosh(.55,.55,3400); whoosh(.32,.4,1500,.05);
+           blip(150,.55,'sawtooth',.28,1000); blip(440,.2,'square',.2,1700);
+           blip(880,.14,'square',.14,1500,.03);
+           try{navigator.vibrate&&navigator.vibrate(35)}catch(e){} },
   land(h){ whoosh(.14,h?.42:.2,h?700:500); },
   crash(){ whoosh(.6,.5,900); blip(300,.5,'sawtooth',.3,-220); try{navigator.vibrate&&navigator.vibrate(90)}catch(e){} },
   beep(go){ blip(go?920:560,go?.4:.14,'square',.3); },
@@ -544,7 +547,7 @@ const VIEWW=460;          // 画面横に映る世界の幅
 
 let S='title', paused=false, AUTO=false;
 const game={ci:0,co:null,t:0,timeLeft:0,tire:100,nitros:3,finished:false,endKind:'',
-  resT:0,cntT:0,goFlash:0,msgs:[],parts:[],cam:{x:0,y:0,zoom:1,shake:0},
+  resT:0,cntT:0,goFlash:0,nitroFlash:0,msgs:[],parts:[],cam:{x:0,y:0,zoom:1,shake:0},
   best:null,newBest:false,stars:0,fxAcc:0};
 let bike=null;
 function newBike(co){ const g0=groundAt(co,40);
@@ -566,9 +569,28 @@ function spDust(x,y,n,col,pw){ pw=pw||1; for(let i=0;i<n;i++) game.parts.push({
 function spStar(x,y,col){ for(let i=0;i<10;i++){ const a=rnd(0,TAU),v=rnd(60,210);
   game.parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-40,g:140,
     t:0,life:rnd(.3,.6),r:rnd(1.5,3.5),col:col,kind:'spark'}); } }
-function spFlame(x,y,ang){ for(let i=0;i<2;i++){ const a=ang+PI+rnd(-.3,.3),v=rnd(170,320);
+function spFlame(x,y,ang){ for(let i=0;i<3;i++){ const a=ang+PI+rnd(-.35,.35),v=rnd(220,430);
   game.parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:-40,
-    t:0,life:rnd(.1,.24),r:rnd(3,6.5),col:i?'#FFD23E':'#FF7A3D',kind:'flame'}); } }
+    t:0,life:rnd(.12,.30),r:rnd(4,8.5),
+    col:i===0?'#CFF4FF':(i===1?'#FFD23E':'#FF6A2A'),kind:'flame'}); } }
+/* ニトロ点火の大噴射バースト */
+function spNitroBurst(x,y,ang){
+  /* 後方へ噴き出す大きな炎 */
+  for(let i=0;i<20;i++){ const a=ang+PI+rnd(-.6,.6), v=rnd(280,620);
+    game.parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-rnd(0,50),g:-30,
+      t:0,life:rnd(.18,.45),r:rnd(5,11),col:i%3?'#FFB23E':'#FF4E22',kind:'flame'}); }
+  /* 青白いコア火花(全方位) */
+  for(let i=0;i<18;i++){ const a=rnd(0,TAU), v=rnd(140,400);
+    game.parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:70,
+      t:0,life:rnd(.22,.55),r:rnd(2,5),col:i%2?'#DFFBFF':'#5CE0FF',kind:'flame'}); }
+  /* 白い衝撃波リング(2重) */
+  game.parts.push({x:x,y:y,vx:0,vy:0,g:0,t:0,life:.34,r:6,col:'#EAFFFF',kind:'ring'});
+  game.parts.push({x:x,y:y,vx:0,vy:0,g:0,t:0,life:.5,r:4,col:'#7DE0FF',kind:'ring'});
+  /* 噴煙 */
+  for(let i=0;i<9;i++){ const a=ang+PI+rnd(-.75,.75), v=rnd(70,180);
+    game.parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-30,g:-55,
+      t:0,life:rnd(.4,.85),r:rnd(5,10),col:'#9FB0C8',kind:'dust'}); }
+}
 function spConfetti(x,y){ const cols=['#FF5A4E','#FFD23E','#46E6FF','#7CFF6B','#FF7AD9'];
   for(let i=0;i<46;i++) game.parts.push({x:x+rnd(-40,40),y:y+rnd(-170,-50),
     vx:rnd(-110,110),vy:rnd(-180,-30),g:190,t:0,life:rnd(.8,1.7),r:rnd(2,4),
@@ -577,7 +599,7 @@ function spConfetti(x,y){ const cols=['#FF5A4E','#FFD23E','#46E6FF','#7CFF6B','#
 function startRace(ci){
   game.ci=ci; game.co=COURSE_DEFS[ci]();
   game.t=0; game.timeLeft=game.co.limit; game.tire=100; game.nitros=3;
-  game.finished=false; game.endKind=''; game.resT=0; game.cntT=3.0; game.goFlash=0;
+  game.finished=false; game.endKind=''; game.resT=0; game.cntT=3.0; game.goFlash=0; game.nitroFlash=0;
   game.msgs.length=0; game.parts.length=0; game.newBest=false; game.stars=0;
   const bs=loadBests(); game.best=bs[ci]?bs[ci].t:null;
   bike=newBike(game.co);
@@ -607,6 +629,7 @@ function update(dt){
   }
   if(S!=='race'&&S!=='end') return;
   game.goFlash=Math.max(0,game.goFlash-dt);
+  game.nitroFlash=Math.max(0,game.nitroFlash-dt*2.4);
   if(S==='race'&&!game.finished){
     game.t+=dt;
     const pv=Math.ceil(game.timeLeft); game.timeLeft-=dt;
@@ -628,7 +651,10 @@ function stepBike(DT){
   const brk = allowIn && input.brake;
   if(input.nitroQ){ input.nitroQ=false;
     if(allowIn && game.nitros>0 && b.nitroT<=0){
-      game.nitros--; b.nitroT=1.05; sfx.nitro(); pushMsg('ニトロ!','#7DE0FF'); } }
+      game.nitros--; b.nitroT=1.05; sfx.nitro(); pushMsg('ニトロ点火!','#7DE0FF');
+      game.nitroFlash=1; game.cam.shake=Math.max(game.cam.shake,9);
+      const ex={x:b.x-Math.cos(b.ang)*34, y:b.y-14-Math.sin(b.ang)*34};
+      spNitroBurst(ex.x,ex.y+8,b.ang); } }
   if(S==='race'&&!game.finished&&(b.onG||b.loop))
     game.tire=Math.max(0,game.tire-1.05*DT*(b.spd>40?1:.35));
   const vmaxC = game.tire<=0? VMAX*.55 : VMAX;
@@ -888,9 +914,49 @@ function render(){
   renderParts(c);
   renderMsgs(c);
   c.restore();
+  if(bike && (bike.nitroT>0 || game.nitroFlash>0)) renderNitroFX(c,gameH);
   if(S==='race'||S==='count'||S==='end') renderHUD(c,pal,gameH);
   if(S==='count') renderCount(c,gameH);
   if(game.goFlash>0&&S==='race') renderGo(c,gameH);
+}
+function renderNitroFX(c,gameH){
+  const b=bike;
+  /* ブースト中:アニメ風スピードライン+青いビネット */
+  if(b.nitroT>0){
+    c.save(); c.globalCompositeOperation='lighter';
+    for(let i=0;i<16;i++){
+      const yy=((i*0.0617+tGlobal*0.7)%1)*gameH;
+      const sx=W*1.15-((tGlobal*2000+i*240)%(W*1.35));
+      const len=70+((i*53)%140);
+      c.globalAlpha=clamp(.10+.10*Math.sin(tGlobal*28+i*1.7),0,.28);
+      c.strokeStyle=i%3?'#7DE0FF':'#FFE45E'; c.lineWidth=2.4;
+      c.beginPath(); c.moveTo(sx,yy); c.lineTo(sx-len,yy); c.stroke();
+    }
+    c.restore(); c.globalAlpha=1;
+    const vg=c.createRadialGradient(W/2,gameH*.5,Math.min(W,gameH)*.28,W/2,gameH*.5,Math.max(W,gameH)*.72);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(40,160,255,.20)');
+    c.fillStyle=vg; c.fillRect(0,0,W,gameH);
+  }
+  /* 点火フラッシュ+弾ける NITRO! 文字 */
+  if(game.nitroFlash>0){
+    const f=game.nitroFlash;
+    c.save(); c.globalCompositeOperation='lighter';
+    const rg=c.createRadialGradient(W/2,gameH*.5,0,W/2,gameH*.5,Math.max(W,gameH)*.75);
+    rg.addColorStop(0,'rgba(200,250,255,'+(.55*f)+')');
+    rg.addColorStop(.42,'rgba(90,200,255,'+(.30*f)+')');
+    rg.addColorStop(1,'rgba(90,200,255,0)');
+    c.fillStyle=rg; c.fillRect(0,0,W,gameH);
+    c.restore(); c.globalAlpha=1;
+    c.save();
+    c.globalAlpha=clamp(f*1.5,0,1);
+    c.translate(W/2,gameH*.33); c.rotate(-.05); c.scale(1+(1-f)*0.7,1+(1-f)*0.7);
+    c.font='900 italic 48px sans-serif'; c.textAlign='center'; c.textBaseline='middle';
+    c.lineWidth=9; c.strokeStyle='rgba(8,20,40,.92)'; c.strokeText('NITRO!',0,0);
+    const grd=c.createLinearGradient(0,-26,0,26);
+    grd.addColorStop(0,'#EAFFFF'); grd.addColorStop(.5,'#7DE0FF'); grd.addColorStop(1,'#2E8BFF');
+    c.fillStyle=grd; c.fillText('NITRO!',0,0);
+    c.restore(); c.globalAlpha=1;
+  }
 }
 function drawRidge(c,arr,step,f,baseWY,col){
   const cam=game.cam;
@@ -1168,6 +1234,14 @@ function renderBike(c){
     c.restore();
     return;
   }
+  if(b.nitroT>0){
+    c.save(); c.globalCompositeOperation='lighter';
+    const gx=_X(b.x), gy=_Y(b.y-14), rad=48*_z*(.82+.18*Math.sin(tGlobal*42));
+    const rg=c.createRadialGradient(gx,gy,0,gx,gy,rad);
+    rg.addColorStop(0,'rgba(150,235,255,.6)'); rg.addColorStop(.5,'rgba(60,150,255,.26)');
+    rg.addColorStop(1,'rgba(60,150,255,0)');
+    c.fillStyle=rg; c.beginPath(); c.arc(gx,gy,rad,0,TAU); c.fill(); c.restore();
+  }
   c.save();
   c.translate(_X(b.x),_Y(b.y)); c.scale(_z,_z); c.rotate(b.ang);
   if(b.wheelie>0){ c.translate(-31,0); c.rotate(-.55*b.wheelie); c.translate(31,0); }
@@ -1185,6 +1259,13 @@ function renderBike(c){
 function renderParts(c){
   for(const p of game.parts){
     const u=p.t/p.life, al=1-u;
+    if(p.kind==='ring'){
+      const rr=(p.r+u*78)*_z;
+      c.globalCompositeOperation='lighter'; c.globalAlpha=al*.85;
+      c.strokeStyle=p.col; c.lineWidth=Math.max(.6,3.6*(1-u)*_z);
+      c.beginPath(); c.arc(_X(p.x),_Y(p.y),rr,0,TAU); c.stroke();
+      c.globalAlpha=1; c.globalCompositeOperation='source-over'; continue;
+    }
     if(p.kind==='flame') c.globalCompositeOperation='lighter';
     c.globalAlpha=al*(p.kind==='dust'?.6:.95);
     c.fillStyle=p.col;
